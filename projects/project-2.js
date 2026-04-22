@@ -149,6 +149,3 @@ quad(diamondX-29,diamondY-60,diamondX-10,diamondY-60,diamondX-10,diamondY-40,dia
     
   }
 }
-
-
-  // ── Your code ends here ────────────────────────────
