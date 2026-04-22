@@ -18,7 +18,7 @@ let colorSea;
 
 
 function setup() {
-  let canvas = createCanvas(400, 400);
+  let canvas = createCanvas(300, 300);
   canvas.parent('sketch-container');
   colorSea= random(10,100);
 }
