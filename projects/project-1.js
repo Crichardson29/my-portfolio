@@ -4,6 +4,7 @@
 function setup() {
   let canvas = createCanvas(400, 400);
   canvas.parent('sketch-container');
+
   sharkx1= random(200,280);
   sharky1= random(200,280);
   sharkx2= random(10,90);
