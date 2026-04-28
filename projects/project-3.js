@@ -12,7 +12,7 @@ let light5 = false;
 let light6 = false;
 
 function setup() {
-  let canvas = createCanvas(300, 300);
+  let canvas = createCanvas(400, 400);
   canvas.parent('sketch-container');
   colorMode(HSB);
   switchcolor = random(190, 360);
