@@ -2,7 +2,7 @@
 // Replace this starter code with your own project!
 
 function setup() {
-  let canvas = createCanvas(500, 500);
+  let canvas = createCanvas(400, 400);
   canvas.parent('sketch-container');
 
   sharkx1= random(200,280);
