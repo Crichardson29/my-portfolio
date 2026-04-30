@@ -1,178 +1,159 @@
-//cake variables
+// cake variables
 var cake;
 var cx, cy;
-//candle variables
+// candle variables
 var candle;
-var randomx, randomx2, randomx3;
-var candlex, candlex2;
-var candley, candley2;
+var randomx = [], candley = [];
 var cmove = 1;
 var count = 0;
-//game status variables
+// game status variables
 var gameLost = false;
 var gameWon = false;
-//water variables
+var gameStarted = false;
+// water variables
 var water;
-var wx = 475;
-var wy = 0;
+var randomw = [], wy = [];
 var ymove = 0.5;
-var randomw, randomw2, randomw3, randomw4;
-waterdrop = 1;
-//sound variables
-//var soundwater;
 
-function preload(){
-	//soundFormats("wav");
-//preloading the images
-cake = loadImage("Cake.png");
-	candle = loadImage("Candle.png");
-	water = loadImage("Water.png");
-	//soundwater= loadSound("Water.wav");
-
+function preload() {
+  cake   = loadImage("Cake.png");
+  candle = loadImage("Candle.png");
+  water  = loadImage("Water.png");
 }
 
 function setup() {
-	let canvas = createCanvas(400, 400);
+  let canvas = createCanvas(400, 400);
   canvas.parent('sketch-container');
-	background(100);
-	//setting variables equal to smt
-	cx = (windowWidth / 2) - 100;
-	cy = windowHeight - 200;
-	randomx = random(0, windowWidth - 10);
-	randomx2 = random(0, windowWidth - 10);
-	randomx3 = random(0, windowWidth - 10);
-	randomw = random(0, windowWidth-10);
-	randomw2 = random(0, windowWidth-10);
-	randomw3 = random(0, windowWidth-10);
-	randomw4 = random(0, windowWidth - 10);
-	candley = 25;
-	
+  cx = width / 2 - 100;
+  cy = height - 200;
+
+  for (let i = 0; i < 3; i++) {
+    randomx[i]  = random(0, width - 60);
+    candley[i]  = random(-300, -50);
+  }
+  for (let i = 0; i < 4; i++) {
+    randomw[i] = random(0, width - 60);
+    wy[i]      = random(-400, -50);
+  }
 }
 
 function draw() {
-	//setting up game visuals and calling images
-	background("lightblue")
-	//rect(cx,cy, 200,200)
-	image(cake, cx, cy, 200, 200);
-	textSize(15)
-	fill("white")
-	rect(390,25, 310, 40);
-	fill("black")
-	text('Try to collect 8 candles and avoid the water!', 400,50);
-	text('Candle Count: ' + count, 50, 50);
+  // ── Start screen ──────────────────────────────────
+  if (!gameStarted) {
+    background("#1a1a1a");
+    fill("#c8f04a");
+    textSize(22);
+    textAlign(CENTER, CENTER);
+    text("CR Game", width / 2, height / 2 - 40);
+    fill(255);
+    textSize(14);
+    text("Click to start", width / 2, height / 2 + 10);
+    textSize(12);
+    fill(150);
+    text("← → arrow keys to move the cake", width / 2, height / 2 + 45);
+    text("Collect 8 candles · Dodge the water!", width / 2, height / 2 + 65);
+    return;
+  }
 
-	//calling the functions
+  // ── Main game ─────────────────────────────────────
+  background("lightblue");
+  image(cake, cx, cy, 200, 200);
 
-	candles(randomx, cmove);
-	candles(randomx2, cmove);
-	candles(randomx3, cmove);
-	//candles(randomx3, cmove);
-	//candleCollison();
+  textAlign(LEFT, CENTER);
+  textSize(14);
+  fill(0);
+  text('Candles: ' + count + ' / 8', 10, 25);
+  textAlign(RIGHT, CENTER);
+  text('← → to move', width - 10, 25);
 
-	waterDrops(randomw, ymove);
-	waterDrops(randomw2, ymove);
-	waterDrops(randomw3, ymove);
-	waterDrops(randomw4, ymove);
-	
+  for (let i = 0; i < 3; i++) { candles(i); }
+  for (let i = 0; i < 4; i++) { waterDrops(i); }
 
-	// calling the function if one outcome is reached
-	if (gameLost || gameWon) {
-		gameOutcome();
-	}
-	
-	
+  if (gameLost || gameWon) { gameOutcome(); }
+}
+
+function mousePressed() {
+  _restartIfOver();
+  if (!gameStarted) {
+    gameStarted = true;
+    return;
+  }
 }
 
 function keyPressed() {
-	//moving the cake using right and left arrows
-	if (keyCode === RIGHT_ARROW) {
-		cx += 12;
-	}
-	if (keyCode === LEFT_ARROW) {
-		cx -= 12;
-	}
+  if (keyCode === RIGHT_ARROW) { cx += 12; }
+  if (keyCode === LEFT_ARROW)  { cx -= 12; }
 }
 
-function candles(beginx, beginy) {
-	//setting the x and y coord of candles
-	candlex = beginx;
-	candley = candley + beginy;
-	//drawing the image
-	image(candle, candlex, candley, 60, 60);
+function candles(i) {
+  candley[i] += cmove;
+  image(candle, randomx[i], candley[i], 60, 60);
 
-	//when you collect 8 candles you win!
-	if (count === 8) {
-		gameWon = true;
-	}
+  if (count >= 8) { gameWon = true; }
 
-	//if candle touches cake, reset candles and add 1 to count
-	if (candlex > cx && candlex < (cx + 200) && candley > cy && candley < (cy + 200)) {
-		// console.log("I won and add a candle")
-		candley = -50;
-		randomx = random(0, windowWidth);
-		count += 1;
-		gameLost = false;
-	}
+  if (randomx[i] > cx && randomx[i] < cx + 200 &&
+      candley[i] > cy && candley[i] < cy + 200) {
+    candley[i]  = -50;
+    randomx[i]  = random(0, width - 60);
+    count += 1;
+  }
 
-	//if candle reaches bottom of screen, reset
-if (candley > windowHeight) {
-		candley = -50
-		randomx = cx+20
-		randomx4 = random(0, windowWidth - 10);
-	}
+  if (candley[i] > height) {
+    candley[i] = -50;
+    randomx[i] = random(0, width - 60);
+  }
 }
 
+function waterDrops(i) {
+  wy[i] += 1.5 * ymove;
+  image(water, randomw[i], wy[i], 60, 60);
 
-function waterDrops(startx, starty) {
-	//setting x and y coord of water
-	wx = startx;
-	wy = wy + 1.5*starty;
-	//drawing waterdroplets
-	image(water, wx, wy, 60, 60);
+  if (randomw[i] > cx + 20 && randomw[i] < cx + 180 &&
+      wy[i] > cy && wy[i] < cy + 200) {
+    gameLost = true;
+  }
 
-
-	//game over if cake touches water
-	if (wx > (cx + 20) && wx < (cx + 180) && wy > cy && wy < (cy + 200)) {
-		gameLost = true;
-	//	if(!soundwater.isPlaying()){
-			//soundwater.play();
-		}
-		
-	}
-
-		
-	
-   //If off the bottom, reset water droplet
-	if (wy > windowHeight) {
-		wy = -50
-		//this watedrop follows the cake
-		randomw = cx+20
-		randomw4 = random(0, windowWidth - 10);
-	}
-
-
-	//if (isPlaying) {
-		//sound.loop();
-	//} else {
-		//sound.stop();
-	//}		
-
-
-
+  if (wy[i] > height) {
+    wy[i]      = -50;
+    randomw[i] = random(0, width - 60);
+  }
+}
 
 function gameOutcome() {
-	//switching the background depending on whether the player won or lost
-	if (gameLost) {
-		background("red");
-		textSize(50);
-		count=0;
-		text('Oh no! You lost!', (windowWidth / 2) - 150, windowHeight / 2);
-	}
+  if (gameLost) {
+    background("red");
+    fill(255);
+    textSize(40);
+    textAlign(CENTER, CENTER);
+    text('Oh no! You lost!', width / 2, height / 2 - 20);
+    textSize(16);
+    text('Click to play again', width / 2, height / 2 + 30);
+  }
+  if (gameWon) {
+    background("green");
+    fill(255);
+    textSize(40);
+    textAlign(CENTER, CENTER);
+    text('Yay! You Won!', width / 2, height / 2 - 20);
+    textSize(16);
+    text('Click to play again', width / 2, height / 2 + 30);
+  }
+}
 
-	if (gameWon) {
-		background("green");
-		textSize(50);
-		count=0
-		text('Yay! You Won!', (windowWidth / 2) - 150, windowHeight / 2);
-	}
+// restart on click after game ends
+function _restartIfOver() {
+  if (gameLost || gameWon) {
+    gameLost = false;
+    gameWon  = false;
+    count    = 0;
+    cx = width / 2 - 100;
+    for (let i = 0; i < 3; i++) {
+      randomx[i]  = random(0, width - 60);
+      candley[i]  = random(-300, -50);
+    }
+    for (let i = 0; i < 4; i++) {
+      randomw[i] = random(0, width - 60);
+      wy[i]      = random(-400, -50);
+    }
+  }
 }
