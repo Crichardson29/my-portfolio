@@ -19,15 +19,15 @@ var ymove = 0.5;
 var randomw, randomw2, randomw3, randomw4;
 waterdrop = 1;
 //sound variables
-var soundwater;
+//var soundwater;
 
 function preload(){
-	soundFormats("wav");
+	//soundFormats("wav");
 //preloading the images
 cake = loadImage("Cake.png");
 	candle = loadImage("Candle.png");
 	water = loadImage("Water.png");
-	soundwater= loadSound("Water.wav");
+	//soundwater= loadSound("Water.wav");
 
 }
 
@@ -134,12 +134,12 @@ function waterDrops(startx, starty) {
 	//game over if cake touches water
 	if (wx > (cx + 20) && wx < (cx + 180) && wy > cy && wy < (cy + 200)) {
 		gameLost = true;
-		if(!soundwater.isPlaying()){
-			soundwater.play();
+	//	if(!soundwater.isPlaying()){
+			//soundwater.play();
 		}
 		
 	}
-}
+
 		
 	
    //If off the bottom, reset water droplet
