@@ -106,7 +106,7 @@ h1 {
 }
 
 .project-card:hover {
-  background: #222;
+  background: #fa96d4;
 }
 
 .project-card:hover .arrow {
@@ -207,7 +207,7 @@ h1 {
   font-family: var(--font-body);
   font-size: 13px;
   letter-spacing: 0.06em;
-  color: #0f0f0f;
+  color: #fa96d4;
   background: var(--accent);
   border: none;
   border-radius: var(--radius);
