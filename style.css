@@ -19,11 +19,11 @@ body {
 
 /* ── Tokens ─────────────────────────────────────────── */
 :root {
-  --bg:        #fa96d4;
+  --bg:        #ffd1e3;
   --surface:   #ffffff;
-  --border:    #fc32b0;
-  --accent:    #fc32b0;
-  --text:      #fc32b0;
+  --border:    #ffd1e3;
+  --accent:    #ffd1e3;
+  --text:      #ffd1e3;
   --muted:     #000000;
   --font-head: 'DM Serif Display', Georgia, serif;
   --font-body: 'DM Mono', 'Courier New', monospace;
