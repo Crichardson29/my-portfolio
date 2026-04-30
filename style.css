@@ -20,9 +20,9 @@ body {
 /* ── Tokens ─────────────────────────────────────────── */
 :root {
   --bg:        #fa96d4;
-  --surface:   #1a1a1a;
-  --border:    #2e2e2e;
-  --accent:    #c8f04a;
+  --surface:   #fa96d4;
+  --border:    #fc32b0;
+  --accent:    #fc32b0;
   --text:      #f0ede6;
   --muted:     #7a7770;
   --font-head: 'DM Serif Display', Georgia, serif;
